@@ -37,9 +37,10 @@ export class Todos extends Component {
                 completed: false
             }
         ],
-        isEdit : false,
+        isEdit: false,
+        isCreate: false,
         itemEdit: {}
-        
+
 
     }
 
@@ -66,55 +67,62 @@ export class Todos extends Component {
     }
 
     editItem = (id) => {
-        console.log(id)
-        const itemEdit = this.state.todos.find((x=>x.id === id));
-      
-      if(itemEdit){
-        this.setState({
-            isEdit: true,
-            itemEdit : itemEdit
-        })
-      }
-       
-    }
 
-    saveChangeItem =() =>{
+        const itemEdit = this.state.todos.find((x => x.id === id));
 
-    }
-
-    cancelEdit = () =>{
-        this.setState({
-            isEdit :false,
-            itemEdit :{}
-        })
-    }
-
-    addItem = (title)=>{
-        if(!title) return;
-        const newTodo = {
-            id:  this.uuidv4(),
-            title: title,
-            completed: false
+        if (itemEdit) {
+            this.setState({
+                isEdit: true,
+                itemEdit: itemEdit
+            })
         }
-        this.setState({
-            todos : [...this.state.todos, newTodo]
-        })
 
     }
+
+    saveChangeItem = (item) => {
+
+     
+        if(!item.id){
+            const newTodo = {
+                id:  this.uuidv4(),
+                title: item.title,
+                completed: false
+            }
+            this.setState({
+                todos: [...this.state.todos, newTodo]
+            })
+        }
+     
+    }
+
+
+
+ 
 
     uuidv4() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-          var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 || 0x8);
-          return v.toString(16);
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 || 0x8);
+            return v.toString(16);
         });
-      }
+    }
+
+    addClick = () => {
+        this.setState({
+            isCreate: true
+        })
+    }
 
 
     render() {
+        let itemForm;
+        if (this.state.isEdit || this.state.isCreate) {
+            itemForm = <AddTodo itemEdit={this.state.itemEdit} saveChangeItem={this.saveChangeItem} />
+        }
         return (
             <div>
-                <AddTodo addItem= {this.addItem} isEdit={this.state.isEdit} itemEdit = {this.state.itemEdit} cancelEdit ={this.cancelEdit}  />
-                <TodoItems todos={this.state.todos} changeCheck={this.changeCheck} delItem={this.delItem}  editItem={this.editItem} />
+                <button onClick={this.addClick}> Add</button>
+                {itemForm}
+                <TodoItems todos={this.state.todos} changeCheck={this.changeCheck} delItem={this.delItem} editItem={this.editItem} />
             </div>
         )
     }

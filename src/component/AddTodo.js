@@ -3,9 +3,19 @@ import React, { Component } from 'react'
 export class AddTodo extends Component {
 
 
-    state = {
-        title: "",
-        edit: false
+    constructor(props) {
+        super(props);
+        this.initialState = {
+            title: '',
+            id :'',
+            completed: false
+        }
+
+        if (props.itemEdit) {
+            this.state = props.itemEdit
+        } else {
+            this.state = this.initialState;
+        }
     }
 
     onInputChangeHandle = (e) => {
@@ -15,22 +25,21 @@ export class AddTodo extends Component {
         })
     }
 
+    submitForm =()=>{
+            this.props.saveChangeItem(this.state)
+
+            this.setState(this.initialState)
+    }
+
+
     render() {
         let form;
-        if (this.props.isEdit) {
+    
             form = <div>
-                <input type="text" value={this.props.itemEdit.title || ""} style={inputStyle} placeholder="Input the title!" onChange={this.onInputChangeHandle} />
-                <input type="submit" style={buttonStyle} value='Update' onClick={this.props.addItem.bind(this, this.state.title)} />
-                <input type="submit" style={buttonCacelStyle} value='Cacel' onClick={this.props.cancelEdit.bind(this)} />
+                <input type="text" value={this.state.title} style={inputStyle} placeholder="Input the title!" onChange={this.onInputChangeHandle} />
+                <input type="submit" style={buttonStyle} value='Save' onClick={this.submitForm} />
+           
             </div>
-
-        } else {
-
-            form = <div>
-                <input type="text" style={inputStyle} placeholder="Input the title!" onChange={this.onInputChangeHandle} />
-                <input type="submit" style={buttonStyle} value='Add' onClick={this.props.addItem.bind(this, this.state.title)} />
-            </div>
-        }
 
         return (
             form
@@ -50,12 +59,12 @@ const buttonStyle = {
     cursor: 'pointer'
 }
 
-const buttonCacelStyle = {
-    background: '#0FF',
-    color: '#FFF',
-    padding: 5,
-    cursor: 'pointer'
-}
+// const buttonCacelStyle = {
+//     background: '#0FF',
+//     color: '#FFF',
+//     padding: 5,
+//     cursor: 'pointer'
+// }
 
 
 export default AddTodo
