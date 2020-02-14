@@ -7,7 +7,7 @@ export class AddTodo extends Component {
         super(props);
         this.initialState = {
             title: '',
-            id :'',
+            id: '',
             completed: false
         }
         if (props.itemEdit) {
@@ -18,27 +18,35 @@ export class AddTodo extends Component {
     }
 
     onInputChangeHandle = (e) => {
-        const newTitle = e.target.value;
+
+        let { name, value } = e.target;
+        if (name == 'completed') {
+            value = e.target.checked
+        }
+
+
+
         this.setState({
-            title: newTitle
+            [name]: value
         })
     }
 
-    submitForm =()=>{
-            this.props.saveChangeItem(this.state)
+    submitForm = () => {
+        this.props.saveChangeItem(this.state)
 
-            this.setState(this.initialState)
+        this.setState(this.initialState)
     }
 
 
     render() {
         let form;
-    
-            form = <div>
-                <input type="text" value={this.state.title} style={inputStyle} placeholder="Input the title!" onChange={this.onInputChangeHandle} />
-                <input type="submit" style={buttonStyle} value='Save' onClick={this.submitForm} />
-           
-            </div>
+
+        form = <div>
+            <input type="text" name="title" value={this.state.title} style={inputStyle} placeholder="Input the title!" onChange={this.onInputChangeHandle} />
+            <input type="checkbox" name="completed" checked={this.state.completed} style={inputStyle} onChange={this.onInputChangeHandle} />
+            <input type="button" style={buttonStyle} value='Save' onClick={this.submitForm} />
+
+        </div>
 
         return (
             form

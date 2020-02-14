@@ -70,7 +70,7 @@ export class Todos extends Component {
             const newTodo = {
                 id:  this.uuidv4(),
                 title: item.title,
-                completed: false
+                completed: item.completed
             }
             this.setState({
                 todos: [...this.state.todos, newTodo],
