@@ -10,7 +10,6 @@ export class AddTodo extends Component {
             id :'',
             completed: false
         }
-
         if (props.itemEdit) {
             this.state = props.itemEdit
         } else {

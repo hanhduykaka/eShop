@@ -21,22 +21,6 @@ export class Todos extends Component {
                 completed: false
             }
         ],
-        subject: [
-            {
-                id: 1,
-                title: "s1",
-                completed: true
-            },
-            {
-                id: 2,
-                title: "s2",
-                completed: true
-            }, {
-                id: 3,
-                title: "s3",
-                completed: false
-            }
-        ],
         isEdit: false,
         isCreate: false,
         itemEdit: {}
@@ -89,15 +73,30 @@ export class Todos extends Component {
                 completed: false
             }
             this.setState({
-                todos: [...this.state.todos, newTodo]
+                todos: [...this.state.todos, newTodo],
+                isEdit: false,
+                isCreate: false,
+                itemEdit: {}
             })
+        }
+        else{
+          let newTodos =  this.state.todos.map((todo)=>{
+                if(todo.id == item.id ){
+                    todo.completed  = item.completed ;
+                    todo.title = item.title ;
+                }
+                return todo;
+            })
+            this.setState({
+                todos: newTodos,
+                isEdit: false,
+                isCreate: false,
+                itemEdit: {}
+            }) 
+
         }
      
     }
-
-
-
- 
 
     uuidv4() {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
