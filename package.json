@@ -12,7 +12,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-     "deploy:prod": "rsync -avzhe ssh --progress ./public/* root@128.199.203.250:/root/todoReact"
+     "deploy:prod": "rsync -avzhe ssh --progress ./build/* root@128.199.203.250:/root/todoReact"
   },
   "eslintConfig": {
     "extends": "react-app"
